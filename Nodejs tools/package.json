@@ -1,0 +1,29 @@
+{
+  "name": "weather-xu",
+  "version": "1.0.1",
+  "description": "a command weather tool",
+  "main": "index.js",
+  "bin": {
+    "weather": "./bin/weather.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "request": "^2.75.0"
+  },
+  "keywords": [
+    "weather"
+  ],
+  "author": "goofyxu",
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goofy007/weather-xu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Goofy007/weather-xu/issues"
+  },
+  "homepage": "https://github.com/Goofy007/weather-xu#readme"
+}

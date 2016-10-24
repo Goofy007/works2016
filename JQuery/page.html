@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>pagination</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style type="text/css">
+	.layout{
+		width: 960px;
+		margin: 0 auto;
+	}
+	.pagination:after{
+	    content: '';
+	    display: block;
+	    clear: both;
+  }
+  .pagination li{
+	  	float: left;
+	  	border: 1px solid #aaa;
+	  	border-right: none;
+	  	list-style: none;
+	  	min-width: 30px;
+	  	height: 28px;
+	  	line-height: 28px;
+	  	font-size: 14px;
+	  	color: #333;
+	  	text-align: center;
+	  	cursor: pointer;
+  }
+  .pagination li:first-child{
+  		border-radius: 3px 0 0 3px;
+  }
+  .pagination li:last-child{
+		border-radius: 0 3px 3px 0;
+		border-right: 1px solid #aaa;
+	}
+  .pagination  .active{
+  	background-color: #aaa;
+  	color: #fff;
+  }
+</style>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="layout">
+		<div class="content"></div>
+		<ul class="pagination">
+			<!-- <li data-page = 1 class ='paging'></li> -->
+			
+		</ul>
+	</div>
+<script type="text/javascript">
+	function Pagination(opts){
+		this.init(opts);
+		this.render();
+		this.bind();
+	}
+	Pagination.prototype = {
+		init:function(opts){
+			$.extend(this,opts);
+			this.pageIdx = 1;
+			this.pages = Math.ceil(this.totalLength / this.pageSize);
+			console.log(this)
+		},
+		render:function(){
+			var html = '<li class="prev"<span>&laquo;</span></li>';
+			for(var i = 1;i<this.pages;i++){
+				if(this.pageIdx === i){
+					html += '<li class="paging active" data-page='+i+'>'+i+'</li>';
+				}else{
+					html +=  '<li class="paging" data-page='+ i+'>'+i+'</li>';
+				}
+			}
+			html += '<li class="next" ><span >&raquo;</span></li>';
+
+			this.ct.append(html);
+			this.onSelect && this.onSelect(1);
+		},
+
+		bind:function(){
+			var me = this,
+				$paging = this.ct.find('.paging');
+			$paging.on('click',function(){
+				$paging.removeClass('active');
+				me.pageIdx = parseInt($(this).attr('data-page'));
+				$(this).addClass('active');
+				me.onSelect && me.onSelect(me.pageIdx);
+			});
+			$('.prev').on('click',function(){
+				if(me.pageIdx == 1) return;
+				me.pageIdx--;
+				$paging.removeClass('active');
+				$paging.eq(me.pageIdx-1).addClass('active');
+				me.onSelect && me.onSelect(me.pageIdx);
+			})
+			$('.next').on('click',function(){
+				if(me.pageIdx == me.pages) return;
+				me.pageIdx ++;
+				$paging.removeClass('active');
+				$paging.eq(me.pageIdx-1).addClass('active');
+				me.onSelect && me.onSelect(me.pageIdx);
+			})
+		}
+	}
+
+	new Pagination({
+		ct:$('.pagination'),
+		pageSize:5,
+		totalLength:50,
+		onSelect:selectPage
+	});
+
+//获取页面数据函数
+    function selectPage(pageIdx) {
+      // $.get('/getComments', {
+      //   page: pageIdx
+      // }).done(function(comments) {
+      //   var htmls = '';
+      //   for (var i = 0; i < comments.length; i++) {
+      //     htmls += '<li>' + comments[i] + '</li>';
+      //   }
+      //   $('.content').html(htmls);
+      // })
+      console.log(pageIdx)
+    }
+</script>
+    
+</body>
+</html>
